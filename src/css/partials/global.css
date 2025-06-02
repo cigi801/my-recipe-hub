@@ -13,14 +13,7 @@ main {
     
 }
 
-header {
-    padding: 1em;
-    background-color: var(--bs-header-background-color);
-    width: 100%;
-    text-align: center;
-    color: var(--bs-white-font-color);
-    font-weight: bold;
-}
+
 
 .nav-container {
     display: flex;
@@ -46,7 +39,7 @@ header {
 }
 
 .nav-button:hover {
-    background-color: var(--bs-header-background-color);
+    background-color: var(--bs-button-hover);
 }
 
 .ingredientList {

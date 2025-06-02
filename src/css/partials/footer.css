@@ -1,6 +1,6 @@
 
 .bottom-nav {
-    background-color: var(--bs-header-background-color);
+    background: var(--bs-gradient);
     width: 100%;
     bottom: 0;
     border-top: 1px solid #ccc;

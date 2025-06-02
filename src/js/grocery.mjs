@@ -1,5 +1,5 @@
 
-import { loadFromStorage, saveToStorage } from './js/storage.js';
+import { loadFromStorage, saveToStorage } from './js/storage.mjs';
 
     const groceryListEl = document.getElementById("groceryList");
 

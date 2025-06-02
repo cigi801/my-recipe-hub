@@ -1,0 +1,15 @@
+
+
+header {
+    background: var(--bs-gradient);
+    width: 100%;
+    text-align: center;
+    color: var(--bs-header-font-color);
+    padding: 0.6rem;
+    box-shadow: var(--bs-box-shadow);
+    font-weight: bold;
+}
+
+header h1 {
+    font-size: 1.6em;
+}

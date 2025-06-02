@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Recipes - My Recipe Hub</title>
+    <meta name="description" content="Recipe Hub">
+    <meta name="author" content="Cigi Owens">
+
+    <!-- Social Media Meta -->
+    <meta property="og:title" content="Recipe Hub" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="#" />
+    <meta property="og:image" content="" />
+    <meta property="og:description" content="A recipe app to help with weekly dinner planning" />
+
+    <link rel="stylesheet" href="css/my-recipes.css" />
+    <script type="module" src="js/main.js" defer></script>
+  </head>
+  <body>
+    <header>My Recipes</header>
+  <main>
+    <div class="tabs">
+        <button class="tab-button active" data-tab="my-recipes">My Recipes</button>
+        <button class="tab-button" data-tab="browse-recipes">Browse Recipes</button>
+    </div>
+
+    <section id="my-recipes" class="tab-content active">
+        <div id="myRecipeList">Loading Recipes...</div>
+    </section>
+
+    <section id="browse-recipes" class="tab-content">
+        <div id="browseRecipeList">Loading from API...</div>
+    </section>
+
+
+  </main>
+      <footer class="bottom-nav">
+        <a href="index.html">Home</a>
+        <a href="planner.html">My Week</a>
+        <a href="my-recipes.html">My Recipes</a>
+        <a href="grocery.html">Grocery List</a>
+    </footer>
+  </body>
+  </html>

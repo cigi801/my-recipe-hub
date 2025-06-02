@@ -1,0 +1,28 @@
+@import "partials/variables.css";
+@import "partials/global.css";
+@import "partials/footer.css";
+
+.day-card {
+    background-color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.day-card h3 {
+    margin: 0 0 0.5rem;
+}
+
+.day-card p {
+    margin: 0.5rem 0;
+}
+
+.day-card select, .day-card button {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+}

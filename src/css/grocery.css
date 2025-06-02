@@ -1,0 +1,28 @@
+@import "partials/variables.css";
+@import "partials/global.css";
+@import "partials/footer.css";
+
+
+ul#groceryList {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: white;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+}
+
+ul li input[type="checkbox"] {
+    margin-right: 0.75rem;
+}
+
+ul li.checked span {
+    text-decoration: line-through;
+    color: gray;
+}

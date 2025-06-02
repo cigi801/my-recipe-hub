@@ -1,0 +1,56 @@
+@import "partials/variables.css";
+@import "partials/global.css";
+@import "partials/footer.css";
+
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.tab-button {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tab-button.active {
+    background-color: var(--bs-header-background-color);
+}
+
+.tab-content {
+    display: none;
+    padding: 1rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.recipe-card {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.recipe-card ul {
+    padding-left: 1.2rem;
+}
+
+.recipe-card button {
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.recipe-card button:hover {
+    background-color: #ccc;
+}

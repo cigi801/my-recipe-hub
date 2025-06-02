@@ -1,0 +1,55 @@
+body {
+    font-family: var(--bs-body-font-family);
+    background-color: var(--bs-background-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main {
+ 
+    
+}
+
+header {
+    padding: 1em;
+    background-color: var(--bs-header-background-color);
+    width: 100%;
+    text-align: center;
+    color: var(--bs-white-font-color);
+    font-weight: bold;
+}
+
+.nav-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 1rem;
+    width: 100%;
+    max-width: 400px;
+    align-items: center;
+}
+
+.nav-button {
+    background-color: var(--bs-button-color);
+    border: 1px solid #ccc;
+    padding: 1em;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    color: var(--bs-white-font-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.4s ease;
+}
+
+.nav-button:hover {
+    background-color: var(--bs-header-background-color);
+}
+
+.ingredientList {
+    margin-bottom: 1rem;
+    padding-left: 1.2rem;
+}

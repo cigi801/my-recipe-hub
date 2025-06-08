@@ -1,6 +1,7 @@
 body {
     font-family: var(--bs-body-font-family);
     background-color: var(--bs-background-color);
+    height: 100%;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,7 +10,7 @@ body {
 }
 
 main {
- 
+    flex: 1;
     
 }
 

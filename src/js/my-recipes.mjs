@@ -4,7 +4,10 @@ import { searchRecipes } from "./api.mjs";
 export function initMyRecipes() {
     renderMyRecipes();
     renderBrowseRecipes();
+    assignRecipeToDay();
 }
+
+
 
 function renderMyRecipes() {
     const container = document.getElementById("myRecipeList");
@@ -12,9 +15,16 @@ function renderMyRecipes() {
 
     const recipes = loadFromStorage("myRecipes") || [];
     if (recipes.length === 0) {
-        container.HTML = "<p>No saved recipes yet.</p>";
+        container.innerHTML = "<p>No saved recipes yet</p>";
         return;
     }
+
+    function assignRecipeToDay(id, day) {
+  const weekPlan = loadFromStorage("weekPlan") || {};
+  weekPlan[day] = Number(id);
+  saveToStorage("weekPlan", weekPlan);
+  alert(`Recipe assigned to ${day}!`);
+}
 
     recipes.forEach(recipe => {
         const card = document.createElement("div");
@@ -25,7 +35,7 @@ function renderMyRecipes() {
         <label for="day-${recipe.id}">Assign to day:</label>
         <select id="day-${recipe.id}">
             <option value="">-- Select --</option>
-            ${["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => `<option value="${day}">${day}<option>`).join("")}
+            ${["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => `<option value="${day}">${day}</option>`).join("")}
         </select>
         <button data-id="${recipe.id}" class="assign-btn">Assign</button>
         <button data-id="${recipe.id}" class="delete-btn">Delete</button>
@@ -44,6 +54,8 @@ function renderMyRecipes() {
         }
     });
 }
+
+
 
 
 function deleteRecipe(id) {

@@ -2,13 +2,15 @@
 @import "partials/global.css";
 @import "partials/header.css";
 @import "partials/footer.css";
+@import "partials/responsive.css";
 
 .day-card {
-    background-color: white;
+    background-color: var(--bs-button-color);
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    
 }
 
 .day-card h3 {
@@ -22,8 +24,30 @@
 .day-card select, .day-card button {
     margin-top: 0.5rem;
     padding: 0.5rem;
-    border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 1rem;
     width: 100%;
 }
+
+#plannerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Layout changes on wider screens */
+@media screen and (min-width: 768px) {
+  #plannerContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  .day-card {
+    flex: 1 1 calc(33% - 2rem); /* 3 tiles per row with space */
+    max-width: 300px;
+  }
+}
+
+

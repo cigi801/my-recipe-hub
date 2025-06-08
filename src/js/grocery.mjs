@@ -1,15 +1,17 @@
 
-import { loadFromStorage, saveToStorage } from './js/storage.mjs';
+import { loadFromStorage, saveToStorage } from './storage.mjs';
 
-    const groceryListEl = document.getElementById("groceryList");
+export function initGroceryList() {
+  const groceryListEl = document.getElementById("groceryList");
+  if (!groceryListEl) return;
 
-    const weekPlan = loadFromStorage("weekPlan") || {};
-    const recipes = loadFromStorage("myRecipes") || [];
-    const checkedItems = loadFromStorage("groceryChecked") || [];
+  const weekPlan = loadFromStorage("weekPlan") || {};
+  const recipes = loadFromStorage("myRecipes") || [];
+  const checkedItems = loadFromStorage("groceryChecked") || [];
 
-    const allIngredients = [];
+  const allIngredients = [];
 
-    for (const day in weekPlan) {
+   for (const day in weekPlan) {
       const recipeId = weekPlan[day];
       const recipe = recipes.find(r => r.id === recipeId);
       if (recipe && recipe.ingredients) {
@@ -19,6 +21,7 @@ import { loadFromStorage, saveToStorage } from './js/storage.mjs';
 
     // Remove duplicates
     const uniqueIngredients = [...new Set(allIngredients)];
+    groceryListEl.innerHTML = "";
 
     // Render the list
     uniqueIngredients.forEach(ingredient => {
@@ -45,3 +48,4 @@ import { loadFromStorage, saveToStorage } from './js/storage.mjs';
 
       groceryListEl.appendChild(li);
     });
+}

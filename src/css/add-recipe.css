@@ -3,6 +3,7 @@
 @import "partials/header.css";
 @import "partials/footer.css";
 @import "partials/responsive.css";
+@import "partials/animation.css";
 
 html, body {
   height: 100%;

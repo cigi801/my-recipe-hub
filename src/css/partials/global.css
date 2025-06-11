@@ -11,7 +11,11 @@ body {
 
 main {
     flex: 1;
-    
+    /*background-image: url('../images/baking.png'), url('../images/chef.png'), url('../images/cooking.png');
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: 10% 20%, 20% 80%, 90% 60%;
+    background-size: 16px, 16px, 16px;
+    background-blend-mode: multiply;*/
 }
 
 

@@ -3,6 +3,7 @@
 @import "partials/header.css";
 @import "partials/footer.css";
 @import "partials/responsive.css";
+@import "partials/animation.css";
 
 
 .tabs {
@@ -37,7 +38,15 @@
     padding: 1rem;
     margin: 1rem 0;
     border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.recipe-card img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
 }
 
 .recipe-card ul {
@@ -46,15 +55,15 @@
 
 .recipe-card button {
     margin-top: 0.5rem;
-    margin-right: 0.5rem;
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    background-color: var(--bs-button-color);
 }
 
 .recipe-card button:hover {
-    background-color: #ccc;
+    background-color: var(--bs-button-hover);
 }
 
 

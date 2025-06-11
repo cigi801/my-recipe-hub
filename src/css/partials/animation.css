@@ -1,0 +1,21 @@
+/* Animation triggered when user adds recipe */
+@keyframes recipeFlash {
+  0% {
+    background-color: #d1e7dd;
+    transform: scale(1);
+  }
+  50% {
+    background-color: #badbcc;
+    transform: scale(1.02);
+  }
+  100% {
+    background-color: #d1e7dd;
+    transform: scale(1);
+  }
+}
+
+.recipe-added {
+  animation: recipeFlash 0.6s ease;
+  border: 2px solid #198754;
+  border-radius: 10px;
+}

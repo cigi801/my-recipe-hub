@@ -1,12 +1,11 @@
 import { loadFromStorage, saveToStorage } from "./storage.mjs";
-import { searchRecipes } from "./api.mjs";
+import { searchRecipes, getRecipeDetails } from "./api.mjs";
 
 export function initMyRecipes() {
     renderMyRecipes();
-    renderBrowseRecipes();
     assignRecipeToDay();
+    setupTabSwitching();
 }
-
 
 
 function renderMyRecipes() {
@@ -19,19 +18,19 @@ function renderMyRecipes() {
         return;
     }
 
-    function assignRecipeToDay(id, day) {
+  function assignRecipeToDay(id, day) {
   const weekPlan = loadFromStorage("weekPlan") || {};
   weekPlan[day] = Number(id);
   saveToStorage("weekPlan", weekPlan);
   alert(`Recipe assigned to ${day}!`);
-}
+  }
 
-    recipes.forEach(recipe => {
-        const card = document.createElement("div");
-        card.className = "recipe-card";
-        card.innerHTML = 
-        `<h3>${recipe.name}</h3>
-        <ul>${recipe.ingredients.map(i => `<li>${i}</li>`).join("")}</ul>
+  recipes.forEach(recipe => {
+    const card = document.createElement("div");
+    card.className = "recipe-card";
+    card.innerHTML = 
+    `<h3>${recipe.name}</h3>
+    <ul>${recipe.ingredients.map(i => `<li>${i}</li>`).join("")}</ul>
         <label for="day-${recipe.id}">Assign to day:</label>
         <select id="day-${recipe.id}">
             <option value="">-- Select --</option>
@@ -56,48 +55,11 @@ function renderMyRecipes() {
 }
 
 
-
-
 function deleteRecipe(id) {
     let recipes = loadFromStorage("myRecipes") || [];
     recipes = recipes.filter(r=> r.id != id);
     saveToStorage("myRecipes", recipes);
     renderMyRecipes();
-}
-
-async function renderBrowseRecipes() {
-    const container = document.getElementById("browseRecipeList");
-  container.innerHTML = "Loading...";
-
-  const recipes = await searchRecipes("pasta");
-
-  if (recipes.length === 0) {
-    container.innerHTML = "<p>No recipes found.</p>";
-    return;
-  }
-
-  recipes.forEach(recipe => {
-    const card = document.createElement("div");
-    card.className = "recipe-card";
-    card.innerHTML = `
-      <h3>${recipe.title}</h3>
-      ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.title}" width="100%" />` : ""}
-      <button>Add to My Recipes</button>
-    `;
-
-    card.querySelector("button").addEventListener("click", () => {
-      const saved = JSON.parse(localStorage.getItem("myRecipes")) || [];
-      saved.push({
-        id: Date.now(),
-        name: recipe.title,
-        ingredients: ["See full recipe online"] // placeholder
-      });
-      localStorage.setItem("myRecipes", JSON.stringify(saved));
-      alert("Recipe saved to My Recipes!");
-    });
-
-    container.appendChild(card);
-  });
 }
 
 document.querySelectorAll('.tab-button').forEach(btn => {
@@ -109,3 +71,87 @@ document.querySelectorAll('.tab-button').forEach(btn => {
   });
 });
 
+async function renderBrowseRecipes(cuisine = "", diet = "") {
+  const container = document.getElementById("browseRecipeList");
+  container.innerHTML = "Loading...";
+
+  const recipes = await searchRecipes(cuisine, diet);
+
+  if (!recipes.length) {
+    container.innerHTML = "<p>No recipes found.</p>";
+    return;
+  }
+
+  container.innerHTML = "";
+  recipes.forEach(recipe => {
+    const card = document.createElement("div");
+    card.className = "recipe-card";
+    card.innerHTML = `
+      <h3>${recipe.title}</h3>
+      ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.title}" class="small-img" />` : ""}
+      <button>Add to My Recipes</button>
+    `;
+
+card.querySelector("button").addEventListener("click", async () => {
+  const fullDetails = await getRecipeDetails(recipe.id);
+
+  if (!fullDetails) {
+    alert("Error loading recipe details.");
+    return;
+  }
+  const ingredients = fullDetails.extendedIngredients?.map(i => i.original) || ["No ingredients listed"];
+
+  const saved = loadFromStorage("myRecipes") || [];
+  saved.push({
+    id: recipe.id,
+    name: fullDetails.title,
+    ingredients: ingredients
+  });
+
+  saveToStorage("myRecipes", saved);
+
+
+  alert("Recipe saved to My Recipes!");
+});
+
+    container.appendChild(card);
+  });
+}
+
+
+
+
+document.querySelectorAll('.tab-button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+document.getElementById("searchCuisineBtn")?.addEventListener("click", () => {
+  const cuisine = document.getElementById("cuisineSelect").value;
+  const diet = document.getElementById("dietSelect").value;
+  renderBrowseRecipes(cuisine, diet);
+});
+
+// Attach Home Button Event
+const homeButton = document.getElementById("homeButton");
+if (homeButton) {
+  homeButton.addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+}
+
+// Attach Back Button Event
+const backButton = document.getElementById("backButton");
+if (backButton) {
+  backButton.addEventListener("click", () => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = "index.html"; // Fallback
+    }
+  });
+}

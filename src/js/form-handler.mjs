@@ -42,8 +42,15 @@ export function addRecipeForm(formElement) {
       saveToStorage("weekPlan", plan);
     }
 
-    alert("Recipe Saved!");
-    window.location.href = "my-recipes.html";
+const formContainer = document.querySelector(".form-container");
+
+formContainer.classList.add("recipe-added");
+
+setTimeout(() => {
+  formContainer.classList.remove("recipe-added");
+  alert("Recipe Saved!");
+  window.location.href = "index.html";
+}, 600); // Match animation duration
   });
 }
 

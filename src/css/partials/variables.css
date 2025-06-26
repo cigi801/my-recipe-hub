@@ -1,12 +1,17 @@
 :root {
     --bs-background-color: #f1f1f5;
     --bs-gradient: linear-gradient(to right, #cecece, #959595, #59585a);
+    --bs-branding-font-color-my:#9b59b6;
+    --bs-branding-font-my: 'Pacifico', cursive;
+    --bs-branding-font-color-hub:#2c3e50;
+    --bs-branding-font-hub: 'Playfair Display', serif;
     --bs-body-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --bs-button-color: #865bff;
     --bs-button-hover: #5a1fff;
     --bs-button-text-color: #ffffff;
     --bs-header-background-color: #8e8e8f;
     --bs-white-font-color: white;
+    --bs-footer-color: #4B0082;
     --bs-header-font-color: rgb(34, 33, 33);
     --bs-box-shadow: 0 4px 6px rgba(0, 0, 0, .5);
     --border-radius: 10px;

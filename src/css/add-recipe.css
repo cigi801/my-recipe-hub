@@ -1,16 +1,12 @@
 @import "partials/variables.css";
 @import "partials/global.css";
-@import "partials/header.css";
+@import "partials/branding.css";
+@import "partials/nav.css";
 @import "partials/footer.css";
 @import "partials/responsive.css";
 @import "partials/animation.css";
 
-html, body {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
+
 
 button[type="button"],
 button[type="submit"] {

@@ -1,8 +1,10 @@
 @import "partials/variables.css";
 @import "partials/global.css";
-@import "partials/header.css";
+@import "partials/branding.css";
 @import "partials/footer.css";
 @import "partials/responsive.css";
+@import "partials/animation.css";
+@import "partials/nav.css";
 
 .day-card {
     background-color: var(--bs-button-color);

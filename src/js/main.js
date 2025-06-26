@@ -23,23 +23,3 @@ if (path.includes('my-recipes') || path.endsWith('/my-recipes')) {
 if (path.includes('planner') || path.endsWith('/planner')) {
     initPlannerPage();
 }
-
-// Home button
-const homeButton = document.getElementById("homeButton");
-if (homeButton) {
-  homeButton.addEventListener("click", () => {
-    window.location.href = "index.html";
-  });
-}
-
-// Back button
-const backButton = document.getElementById("backButton");
-if (backButton) {
-  backButton.addEventListener("click", () => {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = "index.html"; // Fallback
-    }
-  });
-}

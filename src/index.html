@@ -15,19 +15,38 @@
     <meta property="og:description" content="A recipe app to help with weekly dinner planning" />
 
     <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script type="module" src="js/main.js" defer></script>
   </head>
   <body>
+    <div class="page-container">
+      <div class="main-content">
     <header class="main-header">
-      <h1>My Recipe Hub</h1>
+      <h1 class="branding">
+        <span class="my">My </span><span class="recipe-hub">Recipe Hub</span>
+      </h1>
     </header>
 	
-  <main class="nav-container">
-        <a href="planner.html" class="nav-button">My Week</a>
-        <a href="add-recipe.html" class="nav-button">Add a Recipe</a>
-        <a href="my-recipes.html" class="nav-button">My Recipes</a>
-        <a href="grocery.html" class="nav-button">Grocery List</a>
+  <main>
+  <div class="nav-container">
+    <a href="planner.html" class="nav-section plan-week-section">
+      <h2>Plan My Week</h2>
+    </a>
+    <a href="add-recipe.html" class="nav-section add-recipe-section">
+      <h2>Add a Recipe</h2>
+    </a>
+    <a href="my-recipes.html" class="nav-section my-recipes-section">
+      <h2>My Recipes</h2>
+    </a>
+    <a href="grocery.html" class="nav-section list-section">
+      <h2>Grocery List</h2>
+    </a>
+  </div>
 	</main>
-
+  </div>
+  <footer class="main-footer">
+    <p>&copy; 2025 My Recipe Hub · All rights reserved.</p>
+  </footer>
   </body>
+  </div>
   </html>

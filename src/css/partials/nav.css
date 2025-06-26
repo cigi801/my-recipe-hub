@@ -38,19 +38,19 @@
 }
 
 .plan-week-section {
-  background-image: url('../images/calendar.png');
+  background-image: url('/public/images/calendar.png');
 }
 
 .add-recipe-section {
-  background-image: url('../images/add-recipe.png');
+  background-image: url('/public/images/add-recipe.png');
 }
 
 .my-recipes-section {
-  background-image: url('../images/my-recipes.png');
+  background-image: url('/public/images/my-recipes.png');
 }
 
 .list-section {
-  background-image: url('../images/list.png');
+  background-image: url('/public/images/list.png');
 }
 
 /* Top Navigation Bar */

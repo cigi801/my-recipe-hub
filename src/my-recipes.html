@@ -64,7 +64,19 @@
   <option value="primal">Primal</option>
   <option value="whole30">Whole30</option>
 </select>
-  <button id="searchCuisineBtn">Search Recipes</button>
+
+<label for="maxTimeSelect">Max cooking time:</label>
+  <select id="maxTimeSelect">
+    <option value="">-- Any Time --</option>
+    <option value="15">15 minutes</option>
+    <option value="30">30 minutes</option>
+    <option value="45">45 minutes</option>
+    <option value="60">1 hour</option>
+    <option value="90">1.5 hours</option>
+    <option value="120">2 hours</option>
+  </select>
+
+  <button id="searchRecipesBtn">Search Recipes</button>
 
   <div id="browseRecipeList"></div>
 </section>

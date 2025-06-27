@@ -1,11 +1,17 @@
 
 
-export async function searchRecipes(cuisine = "", diet = "", offset = 0, number = 5) {
+export async function searchRecipes(cuisine = "", diet = "", maxReadyTime = "", offset = 0, number = 5) {
 
   const API_KEY = import.meta.env.VITE_SPOONACULAR_KEY;
   const BASE_URL = "https://api.spoonacular.com";
 
-  const url = `${BASE_URL}/recipes/complexSearch?cuisine=${encodeURIComponent(cuisine)}&diet=${encodeURIComponent(diet)}&type=main%20course&number=${number}&offset=${offset}&apiKey=${API_KEY}`;
+  // Build URL with parameters
+  let url = `${BASE_URL}/recipes/complexSearch?type=main%20course&number=${number}&offset=${offset}&instructionsRequired=true&apiKey=${API_KEY}`;
+  
+  // Add optional parameters if provided
+  if (cuisine) url += `&cuisine=${encodeURIComponent(cuisine)}`;
+  if (diet) url += `&diet=${encodeURIComponent(diet)}`;
+  if (maxReadyTime) url += `&maxReadyTime=${maxReadyTime}`;
 
   try {
     const res = await fetch(url);
@@ -33,8 +39,6 @@ export async function getRecipeDetails(id) {
     return null;
   }
 }
-
-
 
 export async function fetchAPIRecipes() {
     return [

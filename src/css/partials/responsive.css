@@ -40,8 +40,6 @@
     gap: 0.5rem;
   }
 
-
-
   .recipe-card {
     padding: 1rem;
     font-size: 1rem;
@@ -56,19 +54,17 @@
 
 
 @media (min-width: 768px) {
-  .recipe-card,
-  .day-card {
-    width: calc(50% - 1rem);
-    margin: 0.5rem;
-  }
 
-
-  #plannerContainer,
-  #myRecipeList {
+  #plannerContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
+  }
+
+  .day-card {
+    width: calc(50% - 1rem);
+    margin: 0.5rem;
   }
 
   .form-container {
@@ -82,13 +78,9 @@
 }
 
 @media (min-width: 1024px) {
-  .recipe-card,
+
   .day-card {
     width: calc(33.333% - 1rem);
-  }
-
-  .bottom-nav {
-    justify-content: center;
   }
 }
 

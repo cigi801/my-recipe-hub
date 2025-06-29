@@ -6,8 +6,57 @@
 @import "partials/animation.css";
 @import "partials/nav.css";
 
+#plannerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Button Styles */
+.btn-primary, .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--bs-button-color) 0%, var(--bs-button-light-purple) 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--primary-green);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+
+
 .day-card {
-    background-color: var(--bs-button-color);
+    background: linear-gradient(135deg, var(--bs-button-color) 0%, var(--bs-button-light-purple) 100%);
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 12px;
@@ -31,12 +80,7 @@
     width: 100%;
 }
 
-#plannerContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-}
+
 
 /* Layout changes on wider screens */
 @media screen and (min-width: 768px) {

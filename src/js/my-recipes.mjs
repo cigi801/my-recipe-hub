@@ -34,7 +34,7 @@ function renderMyRecipes() {
         `<div class="recipe-summary">
             ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.name}" class="recipe-thumbnail" />` : '<div class="recipe-placeholder">No Image</div>'}
             <div class="recipe-info">
-                <h3>${recipe.name}</h3>
+                <h3><a href="/recipe-detail?id=${recipe.id}" class="recipe-link">${recipe.name}</a></h3>
                 <p class="prep-time">⏱️ ${prepTime}</p>
             </div>
             <button class="expand-btn" aria-label="View recipe details">▼</button>
@@ -170,22 +170,65 @@ async function renderBrowseRecipes(cuisine = "", diet = "", maxReadyTime = "") {
         }
 
         container.innerHTML = "";
-        recipes.forEach(recipe => {
+        
+        // Get basic details for each recipe first to show prep time
+        const recipePromises = recipes.map(async (recipe) => {
+            const details = await getRecipeDetails(recipe.id);
+            return { ...recipe, details };
+        });
+        
+        const recipesWithDetails = await Promise.all(recipePromises);
+        
+        recipesWithDetails.forEach(recipe => {
             const card = document.createElement("div");
-            card.className = "recipe-card";
+            card.className = "recipe-card browse";
+            
+            const prepTime = recipe.details?.readyInMinutes ? `${recipe.details.readyInMinutes} mins` : 'Time not available';
+            const servings = recipe.details?.servings ? `${recipe.details.servings} servings` : '';
+            
             card.innerHTML = `
-                <h3>${recipe.title}</h3>
-                ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.title}" class="small-img" />` : ""}
-                <button class="add-recipe-btn" data-id="${recipe.id}">Add to My Recipes</button>
+                ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.title}" />` : ""}
+                <div class="card-content">
+                    <h3>${recipe.title}</h3>
+                    <div class="recipe-meta">
+                        <span>⏱️ ${prepTime}</span>
+                        ${servings ? `<span>👥 ${servings}</span>` : ''}
+                    </div>
+                    <button class="ingredients-toggle" data-id="${recipe.id}">View Ingredients ▼</button>
+                    <div class="recipe-ingredients" id="ingredients-${recipe.id}">
+                        <h4>Ingredients:</h4>
+                        <ul>
+                            ${recipe.details?.extendedIngredients?.map(ingredient => `<li>${ingredient.original}</li>`).join('') || '<li>Ingredients not available</li>'}
+                        </ul>
+                    </div>
+                    <button class="add-recipe-btn" data-id="${recipe.id}">Add to My Recipes</button>
+                </div>
             `;
 
+            // Add ingredient toggle functionality
+            const toggleBtn = card.querySelector('.ingredients-toggle');
+            const ingredientsDiv = card.querySelector('.recipe-ingredients');
+            
+            toggleBtn.addEventListener('click', () => {
+                const isShowing = ingredientsDiv.classList.contains('show');
+                
+                if (isShowing) {
+                    ingredientsDiv.classList.remove('show');
+                    toggleBtn.textContent = 'View Ingredients ▼';
+                } else {
+                    ingredientsDiv.classList.add('show');
+                    toggleBtn.textContent = 'Hide Ingredients ▲';
+                }
+            });
+
+            // Add recipe functionality
             const addButton = card.querySelector(".add-recipe-btn");
             addButton.addEventListener("click", async () => {
                 addButton.textContent = "Adding...";
                 addButton.disabled = true;
                 
                 try {
-                    const fullDetails = await getRecipeDetails(recipe.id);
+                    const fullDetails = recipe.details; // We already have the details
 
                     if (!fullDetails) {
                         alert("Error loading recipe details.");
@@ -201,6 +244,7 @@ async function renderBrowseRecipes(cuisine = "", diet = "", maxReadyTime = "") {
                     const existingRecipe = saved.find(r => r.id === recipe.id);
                     if (existingRecipe) {
                         alert("Recipe already saved!");
+                        addButton.textContent = "Already Added";
                         return;
                     }
 
@@ -217,6 +261,7 @@ async function renderBrowseRecipes(cuisine = "", diet = "", maxReadyTime = "") {
                     saveToStorage("myRecipes", saved);
                     alert("Recipe saved to My Recipes!");
                     addButton.textContent = "Added!";
+                    addButton.disabled = true;
                     
                     // Refresh the My Recipes tab if it's currently active
                     if (document.getElementById("my-recipes").classList.contains("active")) {
@@ -239,7 +284,7 @@ async function renderBrowseRecipes(cuisine = "", diet = "", maxReadyTime = "") {
 }
 
 function setupSearchButton() {
-    const searchBtn = document.getElementById("searchRecipesBtn");
+    const searchBtn = document.getElementById("searchCuisineBtn");
     if (searchBtn) {
         searchBtn.addEventListener("click", () => {
             const cuisine = document.getElementById("cuisineSelect").value;

@@ -39,6 +39,7 @@ export function initPlannerPage(containerId = "plannerContainer") {
 
       plannerEl.appendChild(card);
     });
+       
   }
 
   renderPlanner();

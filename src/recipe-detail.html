@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Details - My Recipe Hub</title>
+    <meta name="description" content="Recipe Hub">
+    <meta name="author" content="Cigi Owens">
+
+    <!-- Social Media Meta -->
+    <meta property="og:title" content="Recipe Hub" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="#" />
+    <meta property="og:image" content="" />
+    <meta property="og:description" content="A recipe app to help with weekly dinner planning" />
+
+    <link rel="stylesheet" href="css/recipe-detail.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script type="module" src="js/recipe-detail.js" defer></script>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="main-content">
+        <header class="main-header">
+          <h1 class="branding">
+            <span class="my">Recipe </span><span class="recipe-hub">Details</span>
+          </h1>
+        </header>
+        
+        <nav class="top-nav">
+          <a href="/">Home</a>
+          <a href="/planner">My Week</a>
+          <a href="/add-recipe">Add Recipe</a>
+          <a href="/my-recipes">My Recipes</a>
+          <a href="/grocery">Grocery List</a>
+        </nav>
+        
+        <main>
+          <div id="recipeDetailContainer">
+            <div class="loading">Loading recipe details...</div>
+          </div>
+          
+          <div class="action-buttons">
+            <button id="backToRecipes" class="btn secondary">← Back to My Recipes</button>
+            <button id="addToWeekBtn" class="btn primary" style="display: none;">Add to Week Plan</button>
+          </div>
+        </main>
+      </div>
+      
+      <footer class="main-footer">
+        <p>&copy; 2025 My Recipe Hub · All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>

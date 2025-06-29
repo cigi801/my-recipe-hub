@@ -53,6 +53,13 @@
   background-image: url('../../images/list.png');
 }
 
+
+/* My Week Nav Styling */
+.monday-section {
+  background-image: url('../../images/monday.jpg');
+}
+
+
 /* Top Navigation Bar */
 .top-nav {
   background-color: #4B0082;

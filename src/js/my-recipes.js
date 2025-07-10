@@ -5,6 +5,7 @@ export function initMyRecipes() {
     renderMyRecipes();
     setupTabSwitching();
     setupSearchButton();
+    setupAddRecipeModal();
 }
 
 function renderMyRecipes() {
@@ -145,13 +146,21 @@ function setupTabSwitching() {
             document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById(btn.dataset.tab).classList.add('active');
             
-            // Refresh content when switching tabs
+            // Handle different tabs
             if (btn.dataset.tab === 'browse-recipes') {
+                document.getElementById(btn.dataset.tab).classList.add('active');
                 renderBrowseRecipes();
             } else if (btn.dataset.tab === 'my-recipes') {
+                document.getElementById(btn.dataset.tab).classList.add('active');
                 renderMyRecipes();
+            } else if (btn.dataset.tab === 'add-custom-recipe') {
+                // Open the modal instead of showing content
+                openAddRecipeModal();
+                // Keep My Recipes tab visually active
+                btn.classList.remove('active');
+                document.querySelector('[data-tab="my-recipes"]').classList.add('active');
+                document.getElementById('my-recipes').classList.add('active');
             }
         });
     });
@@ -284,7 +293,7 @@ async function renderBrowseRecipes(cuisine = "", diet = "", maxReadyTime = "") {
 }
 
 function setupSearchButton() {
-    const searchBtn = document.getElementById("searchCuisineBtn");
+    const searchBtn = document.getElementById("searchRecipesBtn");
     if (searchBtn) {
         searchBtn.addEventListener("click", () => {
             const cuisine = document.getElementById("cuisineSelect").value;
@@ -294,3 +303,214 @@ function setupSearchButton() {
         });
     }
 }
+
+function setupAddRecipeModal() {
+    const modal = document.getElementById('addRecipeModal');
+    const closeBtn = document.getElementById('closeAddRecipeModal');
+    const cancelBtn = document.getElementById('cancelAddRecipe');
+    const form = document.getElementById('addRecipeForm');
+    const addIngredientBtn = document.getElementById('modalAddIngredientBtn');
+    const ingredientInput = document.getElementById('modalIngredientInput');
+    const ingredientsList = document.getElementById('modalIngredientList');
+
+    // Close modal events
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeAddRecipeModal);
+    }
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeAddRecipeModal);
+    }
+
+    // Close on outside click
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeAddRecipeModal();
+            }
+        });
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
+            closeAddRecipeModal();
+        }
+    });
+
+    // Add ingredient functionality
+    if (addIngredientBtn && ingredientInput) {
+        addIngredientBtn.addEventListener('click', addIngredient);
+        ingredientInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addIngredient();
+            }
+        });
+    }
+
+    // Form submission
+    if (form) {
+        form.addEventListener('submit', handleAddRecipeSubmit);
+    }
+
+    function addIngredient() {
+        const value = ingredientInput.value.trim();
+        if (value) {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>${value}</span>
+                <button type="button" class="remove-ingredient" title="Remove ingredient">×</button>
+            `;
+            
+            // Add remove functionality
+            li.querySelector('.remove-ingredient').addEventListener('click', () => {
+                li.remove();
+            });
+            
+            ingredientsList.appendChild(li);
+            ingredientInput.value = '';
+            ingredientInput.focus();
+        }
+    }
+
+    function handleAddRecipeSubmit(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const recipeName = formData.get('recipeName').trim();
+        const assignDay = formData.get('assignDay');
+        
+        if (!recipeName) {
+            alert('Please enter a recipe name');
+            return;
+        }
+
+        // Get ingredients from the list
+        const ingredients = Array.from(ingredientsList.children).map(li => 
+            li.querySelector('span').textContent
+        );
+
+        if (ingredients.length === 0) {
+            alert('Please add at least one ingredient');
+            return;
+        }
+
+        // Create new recipe
+        const newRecipe = {
+            id: Date.now(),
+            name: recipeName,
+            ingredients: ingredients,
+            readyInMinutes: null,
+            image: null,
+            instructions: null
+        };
+
+        // Save to storage
+        const recipes = loadFromStorage("myRecipes") || [];
+        recipes.push(newRecipe);
+        saveToStorage("myRecipes", recipes);
+
+        // Assign to day if selected
+        if (assignDay) {
+            const weekPlan = loadFromStorage("weekPlan") || {};
+            weekPlan[assignDay] = newRecipe.id;
+            saveToStorage("weekPlan", weekPlan);
+        }
+
+        // Show success animation
+        form.classList.add('recipe-added');
+        
+        setTimeout(() => {
+            form.classList.remove('recipe-added');
+            showAddRecipeSuccessModal(recipeName);
+        }, 600);
+    }
+}
+
+function openAddRecipeModal() {
+    const modal = document.getElementById('addRecipeModal');
+    const nameInput = document.getElementById('modalRecipeName');
+    
+    if (modal) {
+        modal.style.display = 'flex';
+        // Focus on name input after animation
+        setTimeout(() => {
+            if (nameInput) nameInput.focus();
+        }, 300);
+    }
+}
+
+function closeAddRecipeModal() {
+    const modal = document.getElementById('addRecipeModal');
+    if (modal) {
+        modal.style.display = 'none';
+        clearAddRecipeForm();
+        
+        // Switch back to My Recipes tab
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        
+        const myRecipesTab = document.querySelector('[data-tab="my-recipes"]');
+        const myRecipesContent = document.getElementById('my-recipes');
+        
+        if (myRecipesTab) myRecipesTab.classList.add('active');
+        if (myRecipesContent) myRecipesContent.classList.add('active');
+    }
+}
+
+function clearAddRecipeForm() {
+    const form = document.getElementById('addRecipeForm');
+    const ingredientsList = document.getElementById('modalIngredientList');
+    
+    if (form) {
+        form.reset();
+    }
+    if (ingredientsList) {
+        ingredientsList.innerHTML = '';
+    }
+}
+
+function showAddRecipeSuccessModal(recipeName) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal-content success-modal">
+            <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                <h3>✅ Recipe Added!</h3>
+            </div>
+            <div class="modal-body" style="text-align: center; padding: 2rem;">
+                <p><strong>"${recipeName}"</strong> has been added to your collection.</p>
+                <p>Would you like to add another recipe?</p>
+                <div class="modal-actions" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                    <button class="btn-secondary" id="viewRecipes">View My Recipes</button>
+                    <button class="btn-primary" id="addAnother">Add Another Recipe</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add event listeners
+    modal.querySelector('#addAnother').addEventListener('click', () => {
+        modal.remove();
+        clearAddRecipeForm();
+        // Modal stays open for another recipe
+    });
+    
+    modal.querySelector('#viewRecipes').addEventListener('click', () => {
+        modal.remove();
+        closeAddRecipeModal();
+        renderMyRecipes();
+    });
+    
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+            closeAddRecipeModal();
+            renderMyRecipes();
+        }
+    });
+}
+

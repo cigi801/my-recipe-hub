@@ -28,15 +28,16 @@
     </header>
       <nav class="top-nav">
       <a href="/">Home</a>
-      <a href="/planner">My Week</a>
-      <a href="/add-recipe">Add Recipe</a>
       <a href="/my-recipes">My Recipes</a>
+      <a href="/planner">My Week</a>
       <a href="/grocery">Grocery List</a>
     </nav>
   <main>
     <div class="tabs">
         <button class="tab-button active" data-tab="my-recipes">My Recipes</button>
         <button class="tab-button" data-tab="browse-recipes">Browse Recipes</button>
+        <button class="tab-button" data-tab="add-custom-recipe"><span class="add">+ </span>
+        Custom Recipe</button>
     </div>
 
     <section id="my-recipes" class="tab-content active">
@@ -81,6 +82,81 @@
   <div id="browseRecipeList"></div>
 </section>
 
+    <!-- Add Recipe Modal -->
+    <div class="modal-overlay" id="addRecipeModal" style="display: none;">
+      <div class="modal-content add-recipe-modal">
+        <div class="modal-header">
+          <h3>
+            Add New Recipe
+          </h3>
+          <button class="modal-close" id="closeAddRecipeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="addRecipeForm" class="add-recipe-form">
+            <!-- Recipe Name -->
+            <div class="form-group">
+              <label for="modalRecipeName">Recipe Name</label>
+              <input 
+                type="text" 
+                id="modalRecipeName" 
+                name="recipeName"
+                placeholder="Enter recipe name..."
+                required
+              />
+            </div>
+
+            <!-- Ingredients Section -->
+            <div class="form-group">
+              <label for="modalIngredientInput">Ingredients</label>
+              <div class="ingredient-input-group">
+                <input 
+                  type="text" 
+                  id="modalIngredientInput" 
+                  placeholder="Enter ingredients, separated by commas..."
+                />
+                <button type="button" id="modalAddIngredientBtn" class="btn-add-ingredient">
+                  <span>+ </span>
+                  Add
+                </button>
+              </div>
+              <ul id="modalIngredientList" class="ingredients-list">
+                <!-- Ingredients will be added here -->
+              </ul>
+            </div>
+
+            <!-- Optional: Assign to Day -->
+            <div class="form-group">
+              <label for="modalAssignDay">Assign to Day (Optional)</label>
+              <select id="modalAssignDay" name="assignDay">
+                <option value="">-- Select a day --</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+              </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="cancelAddRecipe">Cancel</button>
+              <button type="submit" class="btn-primary">
+                <span class="btn-icon">💾</span>
+                Save Recipe
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="success-toast" id="successToast" style="display: none;">
+      <span class="toast-icon">✅</span>
+      <span class="toast-message"></span>
+    </div>
 
   </main>
       </div>

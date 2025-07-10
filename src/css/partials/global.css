@@ -1,5 +1,5 @@
 html, body {
-    font-family: var(--bs-body-font-family);
+    font-family: var(--font-body);
     height: 100%;
     margin: 0;
 }
@@ -26,9 +26,13 @@ main {
     padding-bottom: 2rem;
 }
 
+h3 {
+  color: black;
+}
+
 
 .main-footer {
-  background-color: Var(--bs-footer-color);
+  background-color: Var(--nav-footer-color);
   color: white;
   text-align: center;
   padding: 0.6rem;

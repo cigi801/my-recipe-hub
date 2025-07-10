@@ -1,7 +1,7 @@
 import { addRecipeForm } from './form-handler.mjs';
-import { initMyRecipes } from './my-recipes.mjs';
-import { initPlannerPage } from './planner.mjs';
-import { initGroceryList } from './grocery.mjs';
+import { initMyRecipes } from './my-recipes.js';
+import { initPlannerPage } from './planner.js';
+import { initGroceryList } from './grocery.js';
 
 
 const path = window.location.pathname.toLowerCase();

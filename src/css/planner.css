@@ -31,7 +31,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--bs-button-color) 0%, var(--bs-button-light-purple) 100%);
+  background: var(--bs-gradient);
   color: white;
   box-shadow: var(--shadow-md);
 }
@@ -45,7 +45,7 @@
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
-  color: var(--primary-green);
+  color: var(--primary-grey);
 }
 
 .btn-secondary:hover {
@@ -56,7 +56,7 @@
 
 
 .day-card {
-    background: linear-gradient(135deg, var(--bs-button-color) 0%, var(--bs-button-light-purple) 100%);
+    background: linear-gradient(135deg, var(--button-color) 0%, var(--bs-button-light-purple) 100%);
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 12px;

@@ -14,33 +14,9 @@
 .branding .recipe-hub {
   font-family: var(--bs-branding-font-hub);
   font-weight: 700;
-  color: var(--bs-branding-font-color-hub);
+  color: var(--primary-font-grey);
 }
 
 
-
-/*
-.icon-button {
-background: none;
-border: none;
-font-size: 1.5rem;
-cursor: pointer;
-padding: 0.5rem;
-}
-
-.icon-button:hover {
-background: none;
-border: none;
-font-size: 1.5rem;
-cursor: pointer;
-padding: 0.5rem;
-}
-
-.icon-button svg {
-    width: 24px;
-    height: 24px;
-    color: black;
-}
-*/
 
 

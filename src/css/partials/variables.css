@@ -1,35 +1,32 @@
 :root {
     --bs-background-color: #f1f1f5;
-    --bs-gradient: linear-gradient(to right, #cecece, #959595, #59585a);
-    --bs-branding-font-color-my:#9b59b6;
-    --bs-branding-font-my: 'Pacifico', cursive;
-    --bs-branding-font-color-hub:#2c3e50;
-    --bs-branding-font-hub: 'Playfair Display', serif;
-    --bs-body-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --bs-button-color: #865bff;
-    --bs-button-light-purple: #b89efe;
-    --bs-button-hover: #5a1fff;
-    --bs-button-text-color: #ffffff;
+    --bs-gradient: linear-gradient(135deg, #4B0082 0%, #b89efe 100%);
+    --bs-gradient-secondary: linear-gradient(to right, #cecece, #959595, #59585a);
     --bs-header-background-color: #8e8e8f;
-    --bs-white-font-color: white;
-    --bs-footer-color: #4B0082;
-    --bs-header-font-color: rgb(34, 33, 33);
+    --nav-footer-color: #4B0082;
+    --cream: #FEFCF9;
+    --warm-beige: #F5F3F0;
     --glass-bg: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
 
     /* Typography */
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --bs-branding-font-my: 'Pacifico', cursive;
+    --bs-branding-font-hub: 'Playfair Display', serif;
+    --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-    /* Modern color palette - Earth tones with energy accents */
-    --primary-green: #2E5B3C;
-    --medium-green: #4B7F52;
-    --light-green: #6B9A6E;
-    --pale-green: #A8D5BA;
-    --warm-beige: #F5F3F0;
-    --cream: #FEFCF9;
-    --canary-yellow: #FFD700;
-    --warm-coral: #FF6B6B;
+    /* Font Color */
+    --bs-branding-font-color-my:#9b59b6;
+    --primary-font-grey:#2c3e50;   
+    --bs-white-font-color: white; 
+    --bs-header-font-color: rgb(34, 33, 33);
+    --bs-button-text-color: #ffffff;
+    --light-grey:#999898; 
+
+    /* Button Styling */
+    --button-color: #7b4397;
+    --bs-button-light-purple: #b89efe;
+    --bs-button-hover: #5a396c;
+
 
     /* Spacing system */
     --space-xs: 0.5rem;

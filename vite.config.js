@@ -14,7 +14,6 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "src/index.html"),
         myRecipes: resolve(__dirname, "src/my-recipes.html"),
-        addRecipe: resolve(__dirname, "src/add-recipe.html"),
         planner: resolve(__dirname, "src/planner.html"),
         grocery: resolve(__dirname, "src/grocery.html")
       },

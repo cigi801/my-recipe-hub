@@ -15,15 +15,21 @@ export function initPlannerPage(containerId = "plannerContainer") {
 
       const card = document.createElement("div");
       card.className = "day-card";
+      card.setAttribute("data-day", day);
+      
       card.innerHTML = `
+        <div class="day-info">
         <h3>${day}</h3>
         <p><strong>Meal:</strong> ${assignedRecipe ? assignedRecipe.name : "<em>Not assigned</em>"}</p>
+        </div>
+        <div class="day-actions">
         <select id="select-${day}">
           <option value="">-- Assign a recipe --</option>
           ${myRecipes.map(r => `
             <option value="${r.id}" ${assignedId === r.id ? "selected" : ""}>${r.name}</option>
           `).join("")}
         </select>
+        </div>
       `;
 
       const dropdown = card.querySelector("select");

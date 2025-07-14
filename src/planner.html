@@ -16,9 +16,6 @@
 
     <link rel="stylesheet" href="css/planner.css" />
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script type="module" src="js/main.js" defer></script>
   </head>
   <body>
@@ -29,11 +26,21 @@
         <span class="my">My </span><span class="recipe-hub">Week</span>
       </h1>
     </header>
-    <nav class="top-nav">
+      <nav class="top-nav">
+      <!-- Hamburger Menu Button for smaller screens -->
+       <button class="mobile-nav-menu" id="mobile-nav-btn" aria-label="Toggle navigation menu">
+        <span class="nav-line"></span>
+        <span class="nav-line"></span>
+        <span class="nav-line"></span>
+       </button>
+
+      <!-- Nav Links -->
+      <div class="nav-links" id="navLinks">
       <a href="/">Home</a>
       <a href="/my-recipes">My Recipes</a>
       <a href="/planner">My Week</a>
       <a href="/grocery">Grocery List</a>
+      </div>
     </nav>
   <main>
 

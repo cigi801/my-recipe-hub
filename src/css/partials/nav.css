@@ -66,7 +66,7 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
-  padding: 0.1rem;
+  padding: 0.3rem;
   flex-wrap: wrap;
   font-weight: bold;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -83,3 +83,119 @@
 .top-nav a:hover {
   background-color: #36005e;
 }
+
+/* Mobile Navigation Hamburger Menu */
+.mobile-nav-menu {
+  display: none; /* Hidden by default on desktop */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: relative;
+  z-index: 1001;
+}
+
+.nav-line {
+  width: 25px;
+  height: 3px;
+  background-color: var(--cream);
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+/* Hamburger Animation - Transform to X when active */
+.mobile-nav-menu.active .nav-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-nav-menu.active .nav-line:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-nav-menu.active .nav-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Navigation Links Container */
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Mobile Navigation Styles */
+@media (max-width: 690px) {
+  .top-nav {
+    position: relative;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.2rem 1rem;
+  }
+  
+  .mobile-nav-menu {
+    display: flex; /* Show hamburger on mobile */
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--nav-footer-color);
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .nav-links.active {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .nav-links a {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s ease;
+  }
+  
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-links a:hover {
+    background-color: #36005e;
+  }
+}
+
+/* Smaller mobile screens */
+@media (max-width: 480px) {
+  .top-nav {
+    padding: 0.2rem 1rem;
+  }
+  
+  .nav-links a {
+    padding: 0.875rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Prevent body scroll when mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+

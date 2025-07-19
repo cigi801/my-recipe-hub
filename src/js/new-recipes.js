@@ -1,7 +1,6 @@
 import { loadFromStorage, saveToStorage } from "./storage.mjs";
 import { searchRecipes, getRecipeDetails } from "./api.mjs";
 
-
 export function initAddRecipes() {
     setupTabSwitching();
     setupSearchButton();
@@ -40,10 +39,10 @@ function setupTabSwitching() {
             } else if (btn.dataset.tab === 'add-custom-recipe') {
                 // Open the modal instead of showing content
                 openAddRecipeModal();
-                // Keep My Recipes tab visually active
+                // Keep Browse Recipes tab visually active
                 btn.classList.remove('active');
-                document.querySelector('[data-tab="my-recipes"]').classList.add('active');
-                document.getElementById('my-recipes').classList.add('active');
+                document.querySelector('[data-tab="browse-recipes"]').classList.add('active');
+                document.getElementById('browse-recipes').classList.add('active');
             }
         });
     });
@@ -70,13 +69,36 @@ function setupSearchButton() {
 // Render browse recipes section
 async function renderBrowseRecipes(cuisine = "", diet = "", maxReadyTime = "") {
     const container = document.getElementById("browseRecipeList");
-    container.innerHTML = "Loading...";
+    
+    if (!cuisine && !diet && !maxReadyTime) {
+        container.innerHTML = `
+            <div class="search-prompt">
+                <div class="search-prompt-icon">🔍</div>
+                <h3>Ready to discover new recipes?</h3>
+                <p>Use the filters above to search for recipes that match your preferences.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = `
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>Searching for delicious recipes...</p>
+        </div>
+    `;
 
     try {
         const recipes = await searchRecipes(cuisine, diet, maxReadyTime);
 
         if (!recipes.length) {
-            container.innerHTML = "<p>No recipes found. Try different search criteria.</p>";
+            container.innerHTML = `
+                <div class="no-results">
+                    <div class="no-results-icon">😔</div>
+                    <h3>No recipes found</h3>
+                    <p>Try adjusting your search criteria or browse different cuisine types.</p>
+                </div>
+            `;
             return;
         }
 
@@ -112,88 +134,131 @@ async function renderBrowseRecipes(cuisine = "", diet = "", maxReadyTime = "") {
                             ${recipe.details?.extendedIngredients?.map(ingredient => `<li>${ingredient.original}</li>`).join('') || '<li>Ingredients not available</li>'}
                         </ul>
                     </div>
-                    <button class="add-recipe-btn" data-id="${recipe.id}">Add to My Recipes</button>
+                    <button class="add-recipe-btn" data-id="${recipe.id}">
+                        <span class="btn-icon">➕</span>
+                        Add to My Recipes
+                    </button>
                 </div>
             `;
 
-            // Add ingredient toggle functionality
-            const toggleBtn = card.querySelector('.ingredients-toggle');
-            const ingredientsDiv = card.querySelector('.recipe-ingredients');
-            
-            toggleBtn.addEventListener('click', () => {
-                const isShowing = ingredientsDiv.classList.contains('show');
-                
-                if (isShowing) {
-                    ingredientsDiv.classList.remove('show');
-                    toggleBtn.textContent = 'View Ingredients ▼';
-                } else {
-                    ingredientsDiv.classList.add('show');
-                    toggleBtn.textContent = 'Hide Ingredients ▲';
-                }
-            });
-
-            // Add recipe functionality
-            const addButton = card.querySelector(".add-recipe-btn");
-            addButton.addEventListener("click", async () => {
-                addButton.textContent = "Adding...";
-                addButton.disabled = true;
-                
-                try {
-                    const fullDetails = recipe.details; // We already have the details
-
-                    if (!fullDetails) {
-                        alert("Error loading recipe details.");
-                        return;
-                    }
-
-                    const ingredients = fullDetails.extendedIngredients?.map(i => i.original) || ["No ingredients listed"];
-                    const instructions = fullDetails.instructions || fullDetails.analyzedInstructions || "No instructions available";
-
-                    const saved = loadFromStorage("myRecipes") || [];
-                    
-                    // Check if recipe already exists
-                    const existingRecipe = saved.find(r => r.id === recipe.id);
-                    if (existingRecipe) {
-                        alert("Recipe already saved!");
-                        addButton.textContent = "Already Added";
-                        return;
-                    }
-
-                    saved.push({
-                        id: recipe.id,
-                        name: fullDetails.title,
-                        ingredients: ingredients,
-                        instructions: instructions,
-                        image: fullDetails.image || recipe.image || null,
-                        readyInMinutes: fullDetails.readyInMinutes || null,
-                        servings: fullDetails.servings || null
-                    });
-
-                    saveToStorage("myRecipes", saved);
-                    alert("Recipe saved to My Recipes!");
-                    addButton.textContent = "Added!";
-                    addButton.disabled = true;
-                    
-                    // Refresh the My Recipes tab if it's currently active
-                    if (document.getElementById("my-recipes").classList.contains("active")) {
-                        renderMyRecipes();
-                    }
-                } catch (error) {
-                    console.error("Error saving recipe:", error);
-                    alert("Error saving recipe. Please try again.");
-                    addButton.textContent = "Add to My Recipes";
-                    addButton.disabled = false;
-                }
-            });
-
             container.appendChild(card);
         });
+        
+        // Set up event delegation ONCE after all cards are created
+        setupBrowseRecipeInteractions(recipesWithDetails);
+        
     } catch (error) {
         console.error("Error loading recipes:", error);
-        container.innerHTML = "<p>Error loading recipes. Please check your API key and try again.</p>";
+        container.innerHTML = `
+            <div class="error-state">
+                <div class="error-icon">⚠️</div>
+                <h3>Search Error</h3>
+                <p>Error loading recipes. Please check your API key and try again.</p>
+                <button onclick="location.reload()" class="btn-secondary">Retry</button>
+            </div>
+        `;
     }
 }
 
+// Handle all interactions with event delegation
+function setupBrowseRecipeInteractions(recipesWithDetails) {
+    const container = document.getElementById("browseRecipeList");
+    
+    // Remove any existing listeners by cloning the container
+    const newContainer = container.cloneNode(true);
+    container.parentNode.replaceChild(newContainer, container);
+    
+    // Single event listener for the entire container
+    newContainer.addEventListener("click", async (e) => {
+        const recipeId = e.target.dataset.id;
+        
+        if (e.target.classList.contains("ingredients-toggle")) {
+            // Handle ingredient toggle
+            const ingredientsDiv = document.getElementById(`ingredients-${recipeId}`);
+            const isShowing = ingredientsDiv.classList.contains('show');
+            
+            if (isShowing) {
+                ingredientsDiv.classList.remove('show');
+                e.target.textContent = 'View Ingredients ▼';
+            } else {
+                ingredientsDiv.classList.add('show');
+                e.target.textContent = 'Hide Ingredients ▲';
+            }
+        } 
+        else if (e.target.classList.contains("add-recipe-btn") || e.target.closest('.add-recipe-btn')) {
+            // Prevent double-clicks
+            const button = e.target.classList.contains("add-recipe-btn") ? e.target : e.target.closest('.add-recipe-btn');
+            
+            if (button.disabled) {
+                console.log('Button already disabled, preventing double-click');
+                return;
+            }
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            await handleAddRecipe(recipeId, button, recipesWithDetails);
+        }
+    });
+}
+
+// Handle adding recipes
+async function handleAddRecipe(recipeId, button, recipesWithDetails) {
+    button.textContent = "Adding...";
+    button.disabled = true;
+    
+    try {
+        // Find the recipe from our already-loaded data
+        const recipe = recipesWithDetails.find(r => r.id == recipeId);
+        const fullDetails = recipe?.details;
+
+        if (!fullDetails) {
+            alert("Error loading recipe details.");
+            button.textContent = "Add to My Recipes";
+            button.disabled = false;
+            return;
+        }
+
+        const ingredients = fullDetails.extendedIngredients?.map(i => i.original) || ["No ingredients listed"];
+        const instructions = fullDetails.instructions || fullDetails.analyzedInstructions || "No instructions available";
+
+        const saved = loadFromStorage("myRecipes") || [];
+        
+        // Check if recipe already exists
+        const existingRecipe = saved.find(r => r.id === recipe.id);
+        if (existingRecipe) {
+            alert("Recipe already saved!");
+            button.textContent = "Already Added";
+            button.classList.add("added");
+            return; // Don't re-enable button
+        }
+
+        // Save the recipe
+        saved.push({
+            id: recipe.id,
+            name: fullDetails.title,
+            ingredients: ingredients,
+            instructions: instructions,
+            image: fullDetails.image || recipe.image || null,
+            readyInMinutes: fullDetails.readyInMinutes || null,
+            servings: fullDetails.servings || null
+        });
+
+        saveToStorage("myRecipes", saved);
+        alert("Recipe saved to My Recipes!");
+        button.textContent = "Added!";
+        button.classList.add("added");
+        // Don't re-enable the button
+        
+    } catch (error) {
+        console.error("Error saving recipe:", error);
+        alert("Error saving recipe. Please try again.");
+        button.textContent = "Add to My Recipes";
+        button.disabled = false;
+    }
+}
+
+// Modal functionality for custom recipes
 function setupAddRecipeModal() {
     const modal = document.getElementById('addRecipeModal');
     const closeBtn = document.getElementById('closeAddRecipeModal');
@@ -210,8 +275,6 @@ function setupAddRecipeModal() {
     if (cancelBtn) {
         cancelBtn.addEventListener('click', closeAddRecipeModal);
     }
-
-
 
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
@@ -329,15 +392,15 @@ function closeAddRecipeModal() {
         modal.style.display = 'none';
         clearAddRecipeForm();
         
-        // Switch back to My Recipes tab
+        // Switch back to Browse Recipes tab
         document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         
-        const myRecipesTab = document.querySelector('[data-tab="my-recipes"]');
-        const myRecipesContent = document.getElementById('my-recipes');
+        const browseTab = document.querySelector('[data-tab="browse-recipes"]');
+        const browseContent = document.getElementById('browse-recipes');
         
-        if (myRecipesTab) myRecipesTab.classList.add('active');
-        if (myRecipesContent) myRecipesContent.classList.add('active');
+        if (browseTab) browseTab.classList.add('active');
+        if (browseContent) browseContent.classList.add('active');
     }
 }
 
@@ -386,5 +449,4 @@ function showAddRecipeSuccessModal(recipeName) {
         closeAddRecipeModal();
         window.location.href = '/my-recipes';
     });
-
 }

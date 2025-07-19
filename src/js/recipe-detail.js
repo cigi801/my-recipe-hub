@@ -49,7 +49,7 @@ async function loadRecipeDetail(recipeId) {
             return;
         }
         
-        // Convert API format to our format
+        // Convert API format
         recipe = {
             id: recipe.id,
             name: recipe.title,

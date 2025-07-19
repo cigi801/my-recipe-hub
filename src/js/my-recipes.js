@@ -16,6 +16,13 @@ function renderMyRecipes() {
     newContainer.innerHTML = "";
 
     const recipes = loadFromStorage("myRecipes") || [];
+    // Debug
+    console.log('All recipes from storage:', recipes);
+    recipes.forEach((recipe, index) => {
+        console.log(`Recipe ${index}:`, recipe);
+        console.log(`Recipe ${index} ID:`, recipe.id);
+    });
+    
     if (recipes.length === 0) {
     newContainer.innerHTML = `
         <div class="empty-state">
@@ -39,6 +46,10 @@ function renderMyRecipes() {
         
         const prepTime = recipe.readyInMinutes ? `${recipe.readyInMinutes} mins` : 'Time not available';
         
+        // Make sure recipe.id exists before using it
+        const recipeId = recipe.id || recipe.ID || Date.now(); // Fallback if needed
+        console.log('Using recipe ID:', recipeId); // Debug
+
         card.innerHTML = 
         `<div class="recipe-summary">
             ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.name}" class="recipe-thumbnail" />` : '<div class="recipe-placeholder">No Image</div>'}
@@ -46,7 +57,7 @@ function renderMyRecipes() {
                 <h3><a href="/recipe-detail?id=${recipe.id}" class="recipe-link">${recipe.name}</a></h3>
                 <p class="prep-time">⏱️ ${prepTime}</p>
             </div>
-            <button class="expand-btn" aria-label="View recipe details">▼</button>
+            <button class="view-details-btn" data-id="${recipe.id}" aria-label="View full recipe details">View</button>
         </div>
         <div class="recipe-details" style="display: none;">
             <div class="ingredients-section">
@@ -84,8 +95,13 @@ function renderMyRecipes() {
             const day = document.getElementById(`day-${id}`).value;
             if (day) assignRecipeToDay(id, day);
         }
-        else if (e.target.classList.contains("expand-btn")) {
-            toggleRecipeDetails(e.target);
+        else if (e.target.classList.contains("view-details-btn")) {
+        // Navigate to recipe detail page
+        const recipeId = e.target.dataset.id;
+        console.log('Button clicked, recipe ID:', recipeId); // Debug
+        console.log('Button element:', e.target); // Debug
+        console.log('Button data attributes:', e.target.dataset); // Debug
+        window.location.href = `/recipe-detail?id=${recipeId}`;
         }
         // Also allow clicking anywhere on the summary to expand
         else if (e.target.closest('.recipe-summary') && !e.target.closest('.expand-btn')) {

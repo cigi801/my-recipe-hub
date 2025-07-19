@@ -4,12 +4,17 @@ import { getRecipeDetails } from "./api.mjs";
 // Get URL parameters
 function getURLParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log('Current URL:', window.location.href); // Debug
+    console.log('URL Search params:', window.location.search); // Debug
+    console.log(`Looking for parameter '${name}':`, urlParams.get(name)); // Debug
     return urlParams.get(name);
 }
 
 // Initialize the recipe detail page
 async function initRecipeDetail() {
+    console.log('initRecipeDetail called'); // Debug
     const recipeId = getURLParameter('id');
+    console.log('Recipe ID from URL:', recipeId); // Debug
     
     if (!recipeId) {
         document.getElementById('recipeDetailContainer').innerHTML = 

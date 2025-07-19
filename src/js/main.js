@@ -1,7 +1,9 @@
 import { addRecipeForm } from './form-handler.mjs';
 import { initMyRecipes } from './my-recipes.js';
+import { initAddRecipes } from './new-recipes.js';
 import { initPlannerPage } from './planner.js';
 import { initGroceryList } from './grocery.js';
+
 
 
 const path = window.location.pathname.toLowerCase();
@@ -15,8 +17,17 @@ if (path.includes('my-recipes') || path.endsWith('/my-recipes')) {
     initMyRecipes();
 }
 
+if (path.includes('new-recipes') || path.endsWith('/new-recipes')) {
+    initAddRecipes();
+}
+
 if (path.includes('planner') || path.endsWith('/planner')) {
     initPlannerPage();
+}
+
+if (path.includes('recipe-detail') || path.endsWith('/recipe-detail')) {
+ 
+    console.log('Recipe detail page loaded');
 }
 
 // Navigation 

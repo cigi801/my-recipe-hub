@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Recipes - My Recipe Hub</title>
+    <meta name="description" content="Recipe Hub">
+    <meta name="author" content="Cigi Owens">
+
+    <!-- Social Media Meta -->
+    <meta property="og:title" content="Recipe Hub" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="#" />
+    <meta property="og:image" content="" />
+    <meta property="og:description" content="A recipe app to help with weekly dinner planning" />
+
+    <link rel="stylesheet" href="css/new-recipes.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script type="module" src="js/main.js" defer></script>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="main-content">
+    <header class="main-header">
+      <h1 class="branding">
+        <span class="my">New </span><span class="recipe-hub">Recipes</span>
+      </h1>
+    </header>
+      <nav class="top-nav">
+      <!-- Hamburger Menu Button for smaller screens -->
+       <button class="mobile-nav-menu" id="mobile-nav-btn" aria-label="Toggle navigation menu">
+        <span class="nav-line"></span>
+        <span class="nav-line"></span>
+        <span class="nav-line"></span>
+       </button>
+
+      <!-- Nav Links -->
+      <div class="nav-links" id="navLinks">
+      <a href="/">Home</a>
+      <a href="/my-recipes">My Recipes</a>
+      <a href="/new-recipes">New Recipes</a>
+      <a href="/planner">My Week</a>
+      <a href="/grocery">Grocery List</a>
+      </div>
+    </nav>
+    <main>
+    <div class="tabs">
+        <button class="tab-button" data-tab="browse-recipes">Browse Recipes</button>
+        <button class="tab-button" data-tab="add-custom-recipe"><span class="add">+ </span>
+        Custom Recipe</button>
+    </div>
+    <section id="browse-recipes" class="tab-content">
+  <label for="cuisineSelect">Choose a cuisine:</label>
+  <select id="cuisineSelect">
+    <option value="">-- Select Cuisine --</option>
+    <option value="italian">Italian</option>
+    <option value="mexican">Mexican</option>
+    <option value="thai">Thai</option>
+    <option value="indian">Indian</option>
+    <option value="chinese">Chinese</option>
+    <option value="american">American</option>
+  </select>
+  <label for="dietSelect">Choose a diet:</label>
+<select id="dietSelect">
+  <option value="">-- Select Diet --</option>
+  <option value="gluten free">Gluten Free</option>
+  <option value="ketogenic">Ketogenic</option>
+  <option value="vegetarian">Vegetarian</option>
+  <option value="paleo">Paleo</option>
+  <option value="primal">Primal</option>
+  <option value="whole30">Whole30</option>
+</select>
+
+<label for="maxTimeSelect">Max cooking time:</label>
+  <select id="maxTimeSelect">
+    <option value="">-- Any Time --</option>
+    <option value="15">15 minutes</option>
+    <option value="30">30 minutes</option>
+    <option value="45">45 minutes</option>
+    <option value="60">1 hour</option>
+    <option value="90">1.5 hours</option>
+    <option value="120">2 hours</option>
+  </select>
+
+  <button id="searchRecipesBtn">Search Recipes</button>
+
+  <div id="browseRecipeList"></div>
+</section>
+
+    <!-- Add Recipe Modal -->
+    <div class="modal-overlay" id="addRecipeModal" style="display: none;">
+      <div class="modal-content add-recipe-modal">
+        <div class="modal-header">
+          <h3>
+            Add New Recipe
+          </h3>
+          <button class="modal-close" id="closeAddRecipeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="addRecipeForm" class="add-recipe-form">
+            <!-- Recipe Name -->
+            <div class="form-group">
+              <label for="modalRecipeName">Recipe Name</label>
+              <input 
+                type="text" 
+                id="modalRecipeName" 
+                name="recipeName"
+                placeholder="Enter recipe name..."
+                required
+              />
+            </div>
+
+            <!-- Ingredients Section -->
+            <div class="form-group">
+              <label for="modalIngredientInput">Ingredients</label>
+              <div class="ingredient-input-group">
+                <input 
+                  type="text" 
+                  id="modalIngredientInput" 
+                  placeholder="Enter ingredients, separated by commas..."
+                />
+                <button type="button" id="modalAddIngredientBtn" class="btn-add-ingredient">
+                  <span>+ </span>
+                  Add
+                </button>
+              </div>
+              <ul id="modalIngredientList" class="ingredients-list">
+                <!-- Ingredients will be added here -->
+              </ul>
+            </div>
+
+            <!-- Optional: Assign to Day -->
+            <div class="form-group">
+              <label for="modalAssignDay">Assign to Day (Optional)</label>
+              <select id="modalAssignDay" name="assignDay">
+                <option value="">-- Select a day --</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+              </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="cancelAddRecipe">Cancel</button>
+              <button type="submit" class="btn-primary">
+                <span class="btn-icon">💾</span>
+                Save Recipe
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="success-toast" id="successToast" style="display: none;">
+      <span class="toast-icon">✅</span>
+      <span class="toast-message"></span>
+    </div>
+
+  </main>
+      </div>
+  <footer class="main-footer">
+    <p>&copy; 2025 My Recipe Hub · All rights reserved.</p>
+  </footer>
+
+    </main>
+</body>
+</html>
